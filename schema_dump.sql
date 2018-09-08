@@ -49,6 +49,12 @@ CREATE TABLE Photos (
     UNIQUE(FileName)
 );
 
+CREATE TABLE FavGenres (
+    UID int NOT NULL,
+    Name varchar(255) NOT NULL,
+    FOREIGN KEY (UID) REFERENCES Users(UID)
+);
+
 CREATE TABLE Watched (
     UID int NOT NULL,
     MID int NOT NULL,

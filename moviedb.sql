@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2018 at 10:45 AM
+-- Generation Time: Sep 08, 2018 at 11:24 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -346,6 +346,57 @@ INSERT INTO `crew` (`MID`, `PID`, `Role`) VALUES
 (20, 3, 'Director'),
 (20, 13, 'Producer'),
 (20, 10, 'Editor');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favgenres`
+--
+
+CREATE TABLE `favgenres` (
+  `UID` int(11) NOT NULL,
+  `Name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `favgenres`
+--
+
+INSERT INTO `favgenres` (`UID`, `Name`) VALUES
+(1, 'Mystery'),
+(1, 'Horror'),
+(2, 'Sci-Fi'),
+(2, 'Comedy'),
+(3, 'Action'),
+(3, 'Thriller'),
+(4, 'Romance'),
+(4, 'Action'),
+(4, 'Drama'),
+(5, 'Mystery'),
+(5, 'Horror'),
+(6, 'Comedy'),
+(6, 'Horror'),
+(6, 'Documentary'),
+(8, 'Musical'),
+(8, 'Fantasy'),
+(8, 'Mystery'),
+(9, 'Fantasy'),
+(9, 'Horror'),
+(10, 'Drama'),
+(11, 'Fantasy'),
+(11, 'Drama'),
+(13, 'Sci-Fi'),
+(15, 'Musical'),
+(15, 'Horror'),
+(16, 'Documentary'),
+(17, 'Fantasy'),
+(17, 'Comedy'),
+(18, 'Musical'),
+(18, 'Adventure'),
+(18, 'Sci-Fi'),
+(19, 'Thriller'),
+(19, 'Drama'),
+(20, 'Horror');
 
 -- --------------------------------------------------------
 
@@ -969,6 +1020,12 @@ ALTER TABLE `crew`
   ADD KEY `PID` (`PID`);
 
 --
+-- Indexes for table `favgenres`
+--
+ALTER TABLE `favgenres`
+  ADD KEY `UID` (`UID`);
+
+--
 -- Indexes for table `genres`
 --
 ALTER TABLE `genres`
@@ -1052,6 +1109,12 @@ ALTER TABLE `createdby`
 ALTER TABLE `crew`
   ADD CONSTRAINT `crew_ibfk_1` FOREIGN KEY (`MID`) REFERENCES `movies` (`MID`),
   ADD CONSTRAINT `crew_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `people` (`PID`);
+
+--
+-- Constraints for table `favgenres`
+--
+ALTER TABLE `favgenres`
+  ADD CONSTRAINT `favgenres_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`);
 
 --
 -- Constraints for table `genres`
