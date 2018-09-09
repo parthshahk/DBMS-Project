@@ -1,16 +1,55 @@
-Find Movies of a particular genre
-SELECT m.Title, m.ReleaseDate, m.Plot, m.Runtime FROM movies m INNER JOIN genres g ON m.MID=g.MID WHERE g.Name='Horror'
+    FIND MOVIES OF A PARTICULAR GENRE
+SELECT m.Title, m.ReleaseDate, m.Plot, m.Runtime
+FROM movies m
+INNER JOIN genres g ON m.MID=g.MID
+WHERE g.Name='Horror'
 
-Get all reviews of a particular Movie
-SELECT CONCAT(u.FirstName, ' ', u.LastName) as User, r.Stars AS Rating, r.Date, r.Content AS Review FROM reviews r INNER JOIN movies m ON r.MID=m.MID INNER JOIN users u ON u.UID=r.UID WHERE m.Title='The Secret Life' ORDER BY r.Date DESC
+    GET ALL REVIEWS OF A PARTICULAR MOVIE
+SELECT CONCAT(u.FirstName, ' ', u.LastName) AS User, r.Stars AS Rating, r.Date, r.Content AS Review
+FROM reviews r
+INNER JOIN movies m ON r.MID=m.MID
+INNER JOIN users u ON u.UID=r.UID
+WHERE m.Title='The Secret Life'
+ORDER BY r.Date DESC
 
-List all cast/crew members of a Movie
+    LIST ALL CAST MEMBERS OF A MOVIE
+SELECT CONCAT(p.FirstName, " ", p.LastName) AS `Actor Name`, c.CharacterName AS `Character Name` FROM createdby cb
+INNER JOIN movies m ON cb.MID=m.MID
+INNER JOIN cast c ON c.MID=cb.MID AND c.PID=cb.PID
+INNER JOIN people p ON cb.PID=p.PID
+WHERE m.title='The Avengers'
 
+    LIST ALL CREW MEMBERS OF A MOVIE
+SELECT CONCAT(p.FirstName, " ", p.LastName) AS `Crew Member Name`, c.Role AS `Character Name`
+FROM createdby cb
+INNER JOIN movies m ON cb.MID=m.MID
+INNER JOIN crew c ON c.MID=cb.MID AND c.PID=cb.PID
+INNER JOIN people p ON cb.PID=p.PID
+WHERE m.title='The Avengers'
 
-List all movies of favorite genres
-Get all information of a movie
-Get movie released in a particular date range
+    LIST ALL MOVIES OF FAVORITE GENRES
+SELECT m.Title AS Movie, g.Name AS `Genre Match`
+FROM movies m
+INNER JOIN genres g ON m.MID=g.MID
+INNER JOIN favgenres f ON f.Name=g.Name
+INNER JOIN users u ON f.UID=u.UID
+WHERE u.UID=1
+
+    GET ALL INFORMATION OF A MOVIE
+SELECT m.Title, m.ReleaseDate AS 'Release Date', m.Plot, m.runtime, GROUP_CONCAT(g.Name) AS Genres
+FROM movies m
+INNER JOIN genres g ON m.MID=g.MID
+WHERE m.Title = 'The Avengers'
+GROUP BY m.MID
+
+    GET MOVIE RELEASED IN A PARTICULAR DATE RANGE
+SELECT m.Title, m.ReleaseDate AS 'Release Date'
+FROM movies m
+WHERE m.ReleaseDate BETWEEN '2017-01-01' AND '2018-01-01'
+ORDER BY m.ReleaseDate ASC
+
 Find all movies created by a particular cast/crew person
+
 Show all my liked/watched movies
 List all movies with a particular runtime
 List all reviews by a user
