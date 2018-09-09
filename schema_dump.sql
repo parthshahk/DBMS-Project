@@ -32,48 +32,55 @@ CREATE TABLE People (
 CREATE TABLE Genres (
     MID int NOT NULL,
     Name varchar(32) NOT NULL,
-    FOREIGN KEY (MID) REFERENCES movies(MID)
+    FOREIGN KEY (MID) REFERENCES movies(MID),
+    PRIMARY KEY (MID, Name)
 );
 
 CREATE TABLE Posters (
     MID int NOT NULL,
     FileName varchar(255) NOT NULL,
     FOREIGN KEY (MID) REFERENCES movies(MID),
-    UNIQUE(FileName)
+    UNIQUE(FileName),
+    PRIMARY KEY (MID, FileName)
 );
 
 CREATE TABLE Photos (
     PID int NOT NULL,
     FileName varchar(255) NOT NULL,
     FOREIGN KEY (PID) REFERENCES people(PID),
-    UNIQUE(FileName)
+    UNIQUE(FileName),
+    PRIMARY KEY (PID, FileName)
 );
 
 CREATE TABLE FavGenres (
     UID int NOT NULL,
     Name varchar(255) NOT NULL,
-    FOREIGN KEY (UID) REFERENCES Users(UID)
+    FOREIGN KEY (UID) REFERENCES Users(UID),
+    PRIMARY KEY (UID, Name)
 );
 
 CREATE TABLE Watched (
     UID int NOT NULL,
     MID int NOT NULL,
     FOREIGN KEY (UID) REFERENCES Users(UID),
-    FOREIGN KEY (MID) REFERENCES Movies(MID)
+    FOREIGN KEY (MID) REFERENCES Movies(MID),
+    PRIMARY KEY (UID, MID)
 );
 
 CREATE TABLE Liked (
     UID int NOT NULL,
     MID int NOT NULL,
     FOREIGN KEY (UID) REFERENCES Users(UID),
-    FOREIGN KEY (MID) REFERENCES Movies(MID)
+    FOREIGN KEY (MID) REFERENCES Movies(MID),
+    PRIMARY KEY (UID, MID)
 );
 
 CREATE TABLE CreatedBy (
     PID int NOT NULL,
     MID int NOT NULL,
     FOREIGN KEY (PID) REFERENCES People(PID),
-    FOREIGN KEY (MID) REFERENCES Movies(MID)
+    FOREIGN KEY (MID) REFERENCES Movies(MID),
+    PRIMARY KEY (PID, MID)
 );
 
 CREATE TABLE Reviews (
@@ -83,7 +90,8 @@ CREATE TABLE Reviews (
     Stars tinyint NOT NULL,
     Content varchar(1023),
     FOREIGN KEY (UID) REFERENCES Users(UID),
-    FOREIGN KEY (MID) REFERENCES Movies(MID)
+    FOREIGN KEY (MID) REFERENCES Movies(MID),
+    PRIMARY KEY (UID, MID)
 );
 
 CREATE TABLE Cast (
@@ -91,7 +99,8 @@ CREATE TABLE Cast (
     PID int NOT NULL,
     CharacterName varchar(255) NOT NULL,
     FOREIGN KEY (MID) REFERENCES Movies(MID),
-    FOREIGN KEY (PID) REFERENCES People(PID)
+    FOREIGN KEY (PID) REFERENCES People(PID),
+    PRIMARY KEY (MID, PID)
 );
 
 CREATE TABLE Crew (
@@ -99,5 +108,6 @@ CREATE TABLE Crew (
     PID int NOT NULL,
     Role varchar(255) NOT NULL,
     FOREIGN KEY (MID) REFERENCES Movies(MID),
-    FOREIGN KEY (PID) REFERENCES People(PID)
+    FOREIGN KEY (PID) REFERENCES People(PID),
+    PRIMARY KEY (MID, PID)
 );

@@ -1,0 +1,26 @@
+Find Movies of a particular genre
+SELECT m.Title, m.ReleaseDate, m.Plot, m.Runtime FROM movies m INNER JOIN genres g ON m.MID=g.MID WHERE g.Name='Horror'
+
+Get all reviews of a particular Movie
+SELECT CONCAT(u.FirstName, ' ', u.LastName) as User, r.Stars AS Rating, r.Date, r.Content AS Review FROM reviews r INNER JOIN movies m ON r.MID=m.MID INNER JOIN users u ON u.UID=r.UID WHERE m.Title='The Secret Life' ORDER BY r.Date DESC
+
+List all cast/crew members of a Movie
+
+
+List all movies of favorite genres
+Get all information of a movie
+Get movie released in a particular date range
+Find all movies created by a particular cast/crew person
+Show all my liked/watched movies
+List all movies with a particular runtime
+List all reviews by a user
+List all cast/persons of my liked/watched movies
+Movies of my favorite genres i haven't watched
+List all movies with a rating greater than a particular rating
+List top 10 movies
+List bottom 10 movies
+Find movie with character name of actor
+List all photos of a person
+List all favorite genre
+List all genres of a movie
+List all poster of a movie
