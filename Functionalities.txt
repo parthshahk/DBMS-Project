@@ -48,18 +48,71 @@ FROM movies m
 WHERE m.ReleaseDate BETWEEN '2017-01-01' AND '2018-01-01'
 ORDER BY m.ReleaseDate ASC
 
-Find all movies created by a particular cast/crew person
+    FIND ALL MOVIES A PERSON HAS STARRED IN
+SELECT m.Title AS Movie, c.CharacterName as 'Character Name'
+FROM movies m
+INNER JOIN cast c ON m.MID=c.MID
+INNER JOIN people p ON c.PID=p.PID
+WHERE p.PID=1
 
-Show all my liked/watched movies
-List all movies with a particular runtime
-List all reviews by a user
-List all cast/persons of my liked/watched movies
-Movies of my favorite genres i haven't watched
-List all movies with a rating greater than a particular rating
-List top 10 movies
-List bottom 10 movies
-Find movie with character name of actor
-List all photos of a person
-List all favorite genre
-List all genres of a movie
-List all poster of a movie
+    FIND ALL MOVIES A PERSON HAS WORKED IN AS CREW MEMBER
+SELECT m.Title AS Movie, c.Role
+FROM movies m
+INNER JOIN crew c ON m.MID=c.MID
+INNER JOIN people p ON c.PID=p.PID
+WHERE p.PID=1
+
+    ALL LIKED MOVIES OF A USER
+SELECT m.Title
+FROM movies m
+INNER JOIN liked l ON m.MID=l.MID
+INNER JOIN users u ON u.UID=l.UID
+WHERE u.UID=1
+
+    ALL WATCHED MOVIES OF A USER
+SELECT m.Title
+FROM movies m
+INNER JOIN watched w ON m.MID=w.MID
+INNER JOIN users u ON u.UID=w.UID
+WHERE u.UID=1
+
+    LIST ALL REVIEWS BY A USER
+SELECT m.Title AS Movie, r.Date, r.Stars AS Rating, r.Content AS Review
+FROM reviews r
+INNER JOIN movies m ON r.MID=m.MID
+WHERE r.UID=2
+ORDER BY r.Date DESC
+
+    ALL CAST MEMBERS OF USER'S LIKED MOVIES
+SELECT CONCAT(p.FirstName, ' ', p.LastName) AS Actor, m.Title AS Movie, c.CharacterName AS 'Character Name'
+FROM people p
+INNER JOIN cast c ON p.PID=c.PID
+INNER JOIN liked l ON l.MID=c.MID
+INNER JOIN movies m ON c.MID=m.MID
+WHERE l.UID=2
+
+    LIST ALL MOVIES WITH A RATING GREATER THAN A PARTICULAR RATING
+SELECT DISTINCT m.Title, r.Stars
+FROM movies m
+INNER JOIN reviews r ON r.MID=m.MID
+WHERE r.Stars > 4
+
+    LIST ALL PHOTOS OF A PERSON
+SELECT p.FileName
+FROM photos p
+WHERE p.PID=1
+
+    LIST ALL FAVORITE GENRE
+SELECT f.Name AS Genres
+FROM favgenres f
+WHERE f.UID=1
+
+    LIST ALL GENRES OF A MOVIE
+SELECT g.Name AS Genres
+FROM genres g
+WHERE g.MID=1
+
+    LIST ALL POSTER OF A MOVIE
+SELECT p.FileName
+FROM posters p
+WHERE MID=1
