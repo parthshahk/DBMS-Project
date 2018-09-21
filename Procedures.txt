@@ -1,0 +1,44 @@
+    GET ALL MOVIES WITH RUNTIME GREATER THAN THE GIVEN VALUE
+DELIMITER //
+CREATE PROCEDURE MovieFromRuntime(IN rt SMALLINT)
+    BEGIN
+        SELECT Title
+        FROM movies
+        WHERE Runtime =
+        ANY (
+            SELECT Runtime
+            FROM movies
+            WHERE Runtime>rt
+        );
+    END //
+DELIMITER ;
+
+
+    COUNT NUMBER OF MALE AND FEMALE FROM PEOPLE
+DELIMITER //
+CREATE PROCEDURE CountGender()
+    BEGIN
+
+        DECLARE Male INT DEFAULT 0;
+        DECLARE Female INT DEFAULT 0;
+
+        SELECT COUNT(PID) INTO Male FROM people WHERE Gender = 'M';
+        SELECT COUNT(PID) INTO Female FROM people WHERE Gender = 'F';
+
+        SELECT Male, Female;
+    END //
+DELIMITER ;
+
+
+    INSERT INTO CAST TABLE, EXCEPTION IF DUPLICATE KEY
+DELIMITER //
+CREATE PROCEDURE InsertCast(IN mi INT, IN pi INT, IN cn VARCHAR(255))
+    BEGIN
+
+        DECLARE CONTINUE HANDLER FOR 1062
+        SELECT CONCAT('Duplicate Keys (',mi,',',pi,') Found') AS Error;
+
+        INSERT INTO cast VALUES (mi, pi, cn);
+
+    END //
+DELIMITER ;
