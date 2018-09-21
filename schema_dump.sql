@@ -18,7 +18,7 @@ CREATE TABLE Movies (
     Plot varchar(1023),
     Runtime smallint,
     Type varchar(255),
-    Certificate varchar(255) NOT NULL
+    Certificate varchar(255) NOT NULL,
     PRIMARY KEY (MID)
 );
 
