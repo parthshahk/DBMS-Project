@@ -116,3 +116,70 @@ WHERE g.MID=1
 SELECT p.FileName
 FROM posters p
 WHERE MID=1
+
+    LIST OF NUMBER OF MOVIES FOR EACH CERTIFICATE
+SELECT COUNT(MID) AS 'Number of Movies', Certificate 
+FROM movies 
+GROUP BY Certificate
+
+    WHICH TYPE OF CERTIFICATE OF MOVIES IS AVAILABLE IN MAJORITY
+SELECT COUNT(MID) AS 'Number of Movies', Certificate
+FROM movies
+GROUP BY Certificate
+HAVING COUNT(MID) > (SELECT (COUNT(MID)/2)-1 FROM movies)
+
+    AVERAGE RUNTIME OF MOVIES
+SELECT AVG(Runtime) AS 'Average Runtime of Movies'
+FROM MOVIES
+
+    SEARCH MOVIE BY SUBSTRING OF TITLE
+SELECT *
+FROM movies
+WHERE Title
+LIKE '%ave%'
+
+    LIST MOVIES OF PARTICULAR CERTIFICATES
+SELECT *
+FROM movies
+WHERE Certificate
+IN ('PG-13', 'PG')
+
+    LIST ALL NON-ADULT MOVIES
+SELECT *
+FROM movies
+WHERE Certificate
+NOT IN ('R')
+
+    LIST ALL GENRES THAT NO USER HAS LIKED A MOVIE OF
+SELECT Name AS Genre
+FROM genres
+WHERE Name
+NOT IN (
+    SELECT Name 
+    FROM favgenres
+)
+
+    LIST OF ALL CAST AND CREW MEMBERS
+SELECT CONCAT(p.FirstName, " ", p.LastName) AS `Person Name`
+FROM createdby cb
+INNER JOIN movies m ON cb.MID=m.MID
+INNER JOIN cast c ON c.MID=cb.MID AND c.PID=cb.PID
+INNER JOIN people p ON cb.PID=p.PID
+WHERE m.title='The Avengers'
+UNION
+SELECT CONCAT(p.FirstName, " ", p.LastName) AS `Crew Member Name`
+FROM createdby cb
+INNER JOIN movies m ON cb.MID=m.MID
+INNER JOIN crew c ON c.MID=cb.MID AND c.PID=cb.PID
+INNER JOIN people p ON cb.PID=p.PID
+WHERE m.title='The Avengers'
+
+    RUNTIME GREATER THAN A PARTICULAR VALUE
+SELECT Title
+FROM movies
+WHERE Runtime =
+ANY (
+    SELECT Runtime
+    FROM movies
+    WHERE Runtime>100
+);
