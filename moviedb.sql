@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2018 at 08:12 AM
+-- Generation Time: Sep 21, 2018 at 06:38 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `moviedbo`
+-- Database: `moviedb`
 --
 
 -- --------------------------------------------------------
@@ -521,34 +521,36 @@ CREATE TABLE `movies` (
   `Title` varchar(255) NOT NULL,
   `ReleaseDate` date NOT NULL,
   `Plot` varchar(1023) DEFAULT NULL,
-  `Runtime` smallint(6) DEFAULT NULL
+  `Runtime` smallint(6) DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
+  `Certificate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `movies`
 --
 
-INSERT INTO `movies` (`MID`, `Title`, `ReleaseDate`, `Plot`, `Runtime`) VALUES
-(1, 'The Avengers', '2016-10-26', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 139),
-(2, 'The Secret Life', '2018-06-17', 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 120),
-(3, 'Trances', '2017-07-22', 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 91),
-(4, 'Mr. Popper\'s Penguins', '2017-10-06', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 93),
-(5, 'Boy Who Could Fly', '2017-04-26', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 126),
-(6, 'Weekender', '2017-02-21', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 146),
-(7, 'May in the Summer', '2017-07-02', 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 80),
-(8, 'Night of the Demons 2', '2017-09-11', 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 142),
-(9, 'ZMD: Zombies of Mass Destruction', '2016-08-20', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 73),
-(10, 'Shepherd of the Hills, The', '2017-10-25', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 103),
-(11, 'Modulations', '2018-09-28', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 148),
-(12, 'The Godfather', '2018-03-21', 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 145),
-(13, 'American Pimp', '2017-11-27', 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 125),
-(14, 'GoldenEye', '2018-08-24', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 97),
-(15, 'Night Flight', '2016-03-02', 'Phasellus in felis. Donec semper sapien a libero. Nam dui.', 72),
-(16, 'New York, I Love You', '2018-01-27', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 131),
-(17, 'Desperate Journey', '2018-10-23', 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 143),
-(18, 'London Conspiracy', '2017-10-16', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 110),
-(19, 'Bewitched', '2016-03-05', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 116),
-(20, 'Jason X', '2017-10-08', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 101);
+INSERT INTO `movies` (`MID`, `Title`, `ReleaseDate`, `Plot`, `Runtime`, `Type`, `Certificate`) VALUES
+(1, 'The Avengers', '2016-10-26', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 139, 'Feature', 'PG-13'),
+(2, 'The Secret Life', '2018-06-17', 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 120, 'Feature', 'R'),
+(3, 'Trances', '2017-07-22', 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 91, 'Feature', 'PG-13'),
+(4, 'Mr. Popper\'s Penguins', '2017-10-06', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 30, 'Short', 'PG-13'),
+(5, 'Boy Who Could Fly', '2017-04-26', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 126, 'Feature', 'NC-17'),
+(6, 'Weekender', '2017-02-21', 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 146, 'Feature', 'R'),
+(7, 'May in the Summer', '2017-07-02', 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 80, 'Feature', 'PG-13'),
+(8, 'Night of the Demons 2', '2017-09-11', 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 142, 'Feature', 'PG-13'),
+(9, 'ZMD: Zombies of Mass Destruction', '2016-08-20', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 20, 'Short', 'PG-13'),
+(10, 'Shepherd of the Hills, The', '2017-10-25', 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 103, 'Feature', 'NC-17'),
+(11, 'Modulations', '2018-09-28', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 148, 'Feature', 'PG-13'),
+(12, 'The Godfather', '2018-03-21', 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 145, 'Feature', 'PG-13'),
+(13, 'American Pimp', '2017-11-27', 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 125, 'Feature', 'R'),
+(14, 'GoldenEye', '2018-08-24', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 97, 'Feature', 'PG'),
+(15, 'Night Flight', '2016-03-02', 'Phasellus in felis. Donec semper sapien a libero. Nam dui.', 28, 'Short', 'PG'),
+(16, 'New York, I Love You', '2018-01-27', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 131, 'Feature', 'PG-13'),
+(17, 'Desperate Journey', '2018-10-23', 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 143, 'Feature', 'R'),
+(18, 'London Conspiracy', '2017-10-16', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 35, 'Short', 'G'),
+(19, 'Bewitched', '2016-03-05', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 116, 'Feature', 'PG-13'),
+(20, 'Jason X', '2017-10-08', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 101, 'Feature', 'R');
 
 -- --------------------------------------------------------
 

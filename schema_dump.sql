@@ -17,6 +17,8 @@ CREATE TABLE Movies (
     ReleaseDate Date NOT NULL,
     Plot varchar(1023),
     Runtime smallint,
+    Type varchar(255),
+    Certificate varchar(255) NOT NULL
     PRIMARY KEY (MID)
 );
 
