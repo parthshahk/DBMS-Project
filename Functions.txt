@@ -1,0 +1,46 @@
+    CHECKS IF THE MOVIE IS AN ADULT MOVIE OR NOT
+DELIMITER //
+CREATE FUNCTION AdultMovieCheck(name varchar(255)) RETURNS VARCHAR(255)
+    DETERMINISTIC
+BEGIN
+    
+    DECLARE cert VARCHAR(255);
+    DECLARE ans BOOLEAN;
+
+    SELECT Certificate INTO cert FROM movies WHERE Title = name;
+
+    IF cert = 'R' OR cert = 'NC-13' THEN
+        SET ans = TRUE;
+    ELSE
+        SET ans = FALSE;
+    END IF;
+ 
+    RETURN (ans);
+END //
+DELIMITER ;
+
+    RATES THE MOVIE BASED ON THE STARS IT REVEIVED
+DELIMITER //
+CREATE FUNCTION AverageRating(mi INT) RETURNS VARCHAR(255)
+BEGIN
+    
+    DECLARE r INT;
+    DECLARE ans VARCHAR(255);
+
+    SELECT AVG(Stars) INTO r FROM reviews WHERE MID = mi;
+
+    IF r = 5 THEN
+        SET ans = 'Excellent';
+    ELSEIF (r >= 4 AND r < 5) THEN
+        SET ans = 'GOOD';
+    ELSEIF (r >= 3 AND r < 4) THEN
+        SET ans = 'Average';
+    ELSEIF (r >= 2 AND r < 3) THEN
+        SET ans = 'Poor';
+    ELSEIF r < 2 THEN
+        SET ans = 'Very Bad';
+    END IF;
+ 
+    RETURN (ans);
+END //
+DELIMITER ;

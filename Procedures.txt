@@ -42,3 +42,18 @@ CREATE PROCEDURE InsertCast(IN mi INT, IN pi INT, IN cn VARCHAR(255))
 
     END //
 DELIMITER ;
+
+    INSERT INTO REVIEWS WITH VALID RATING VALUE
+DELIMITER //
+CREATE PROCEDURE AddReview(IN ui INT, IN mi INT, IN d date, IN s tinyint, IN c VARCHAR(1023))
+    BEGIN
+
+        IF(s > 5) THEN 
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Rating should be less than or equal to 5';
+        ELSE
+            INSERT INTO Reviews VALUES (ui, mi, d, s, c);
+        END IF;
+
+    END //
+DELIMITER ;

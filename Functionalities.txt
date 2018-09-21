@@ -183,3 +183,8 @@ ANY (
     FROM movies
     WHERE Runtime>100
 );
+
+    AVERAGE RATING OF A MOVIE
+SELECT AVG(Stars) AS Rating
+FROM reviews
+WHERE MID = 2
