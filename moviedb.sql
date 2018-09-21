@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2018 at 06:38 AM
+-- Generation Time: Sep 21, 2018 at 08:00 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -21,6 +21,95 @@ SET time_zone = "+00:00";
 --
 -- Database: `moviedb`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddReview` (IN `ui` INT, IN `mi` INT, IN `d` DATE, IN `s` TINYINT, IN `c` VARCHAR(1023))  BEGIN
+
+        IF(s > 5) THEN 
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Rating should be less than or equal to 5';
+        ELSE
+            INSERT INTO Reviews VALUES (ui, mi, d, s, c);
+        END IF;
+
+    END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CountGender` ()  BEGIN
+
+        DECLARE Male INT DEFAULT 0;
+        DECLARE Female INT DEFAULT 0;
+
+        SELECT COUNT(PID) INTO Male FROM people WHERE Gender = 'M';
+        SELECT COUNT(PID) INTO Female FROM people WHERE Gender = 'F';
+
+        SELECT Male, Female;
+    END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCast` (IN `mi` INT, IN `pi` INT, IN `cn` VARCHAR(255))  BEGIN
+
+        DECLARE CONTINUE HANDLER FOR 1062
+        SELECT CONCAT('Duplicate Keys (',mi,',',pi,') Found') AS Error;
+
+        INSERT INTO cast VALUES (mi, pi, cn);
+
+    END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `MovieFromRuntime` (IN `rt` SMALLINT)  BEGIN
+        SELECT Title
+        FROM movies
+        WHERE Runtime =
+        ANY (
+            SELECT Runtime
+            FROM movies
+            WHERE Runtime>rt
+        );
+    END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `AdultMovieCheck` (`name` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET latin1 BEGIN
+    
+    DECLARE cert VARCHAR(255);
+    DECLARE ans BOOLEAN;
+
+    SELECT Certificate INTO cert FROM movies WHERE Title = name;
+
+    IF cert = 'R' OR cert = 'NC-13' THEN
+        SET ans = TRUE;
+    ELSE
+        SET ans = FALSE;
+    END IF;
+ 
+    RETURN (ans);
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `AverageRating` (`mi` INT) RETURNS VARCHAR(255) CHARSET latin1 BEGIN
+    
+    DECLARE r INT;
+    DECLARE ans VARCHAR(255);
+
+    SELECT AVG(Stars) INTO r FROM reviews WHERE MID = mi;
+
+    IF r = 5 THEN
+        SET ans = 'Excellent';
+    ELSEIF (r >= 4 AND r < 5) THEN
+        SET ans = 'GOOD';
+    ELSEIF (r >= 3 AND r < 4) THEN
+        SET ans = 'Average';
+    ELSEIF (r >= 2 AND r < 3) THEN
+        SET ans = 'Poor';
+    ELSEIF r < 2 THEN
+        SET ans = 'Very Bad';
+    END IF;
+ 
+    RETURN (ans);
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
