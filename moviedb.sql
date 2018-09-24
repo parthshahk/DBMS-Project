@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2018 at 08:00 PM
+-- Generation Time: Sep 24, 2018 at 07:28 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -644,6 +644,22 @@ INSERT INTO `movies` (`MID`, `Title`, `ReleaseDate`, `Plot`, `Runtime`, `Type`, 
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `movie_details`
+-- (See below for the actual view)
+--
+CREATE TABLE `movie_details` (
+`Title` varchar(255)
+,`Release Date` date
+,`Plot` varchar(1023)
+,`Runtime` smallint(6)
+,`Type` varchar(255)
+,`Certificate` varchar(255)
+,`Genres` text
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `people`
 --
 
@@ -878,6 +894,17 @@ INSERT INTO `posters` (`MID`, `FileName`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `ratings`
+-- (See below for the actual view)
+--
+CREATE TABLE `ratings` (
+`Title` varchar(255)
+,`Rating` decimal(7,4)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reviews`
 --
 
@@ -1084,6 +1111,24 @@ INSERT INTO `watched` (`UID`, `MID`) VALUES
 (20, 15),
 (20, 18),
 (20, 20);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `movie_details`
+--
+DROP TABLE IF EXISTS `movie_details`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `movie_details`  AS  select `m`.`Title` AS `Title`,`m`.`ReleaseDate` AS `Release Date`,`m`.`Plot` AS `Plot`,`m`.`Runtime` AS `Runtime`,`m`.`Type` AS `Type`,`m`.`Certificate` AS `Certificate`,group_concat(`g`.`Name` separator ',') AS `Genres` from (`movies` `m` join `genres` `g` on((`m`.`MID` = `g`.`MID`))) group by `m`.`MID` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `ratings`
+--
+DROP TABLE IF EXISTS `ratings`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ratings`  AS  select `m`.`Title` AS `Title`,avg(`r`.`Stars`) AS `Rating` from (`reviews` `r` join `movies` `m` on((`r`.`MID` = `m`.`MID`))) group by `r`.`MID` ;
 
 --
 -- Indexes for dumped tables

@@ -1,0 +1,13 @@
+    LIST ALL MOVIE DETAILS IN ONE TOUPLE
+CREATE VIEW movie_details AS
+SELECT m.Title, m.ReleaseDate AS 'Release Date', m.Plot, m.Runtime, m.Type, m.Certificate, GROUP_CONCAT(g.Name) AS Genres
+FROM movies m
+INNER JOIN genres g ON m.MID=g.MID
+GROUP BY m.MID
+
+    LIST RATINGS OF MOVIES
+CREATE VIEW ratings AS
+SELECT m.Title, AVG(r.Stars) AS Rating
+FROM reviews r
+INNER JOIN movies m ON r.MID = m.MID
+GROUP BY r.MID
