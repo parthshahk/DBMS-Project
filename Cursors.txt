@@ -1,0 +1,29 @@
+DELIMITER //
+CREATE PROCEDURE CountGenres(IN gen VARCHAR(255))
+    BEGIN
+
+        DECLARE GenreCount VARCHAR(255) DEFAULT FALSE;
+        DECLARE finished INT DEFAULT 0;
+        DECLARE x VARCHAR(255);
+
+        DECLARE genreCounter CURSOR FOR SELECT genres.Name FROM moviedb.genres WHERE genres.Name = gen;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = TRUE;
+        
+        OPEN genreCounter;
+
+        label1: LOOP
+            FETCH genreCounter INTO x;
+            IF finished THEN 
+                LEAVE label1;
+            END IF;
+
+            SET GenreCount = GenreCount + 1;
+
+        END LOOP label1;
+
+        CLOSE genreCounter;
+
+        SELECT GenreCount;
+
+    END //
+DELIMITER ;
