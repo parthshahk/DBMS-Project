@@ -1,0 +1,10 @@
+    CHECK MOVIE TYPE WITH RUNTIME
+DELIMITER //
+CREATE TRIGGER MovieTypeCheck BEFORE INSERT ON movies
+    FOR EACH ROW
+        IF (NEW.Runtime < 40) THEN
+            SET NEW.Type = 'Short';
+        ELSEIF (NEW.Runtime >= 40) THEN
+            SET NEW.Type = 'Feature';
+        END IF; //
+DELIMITER ;

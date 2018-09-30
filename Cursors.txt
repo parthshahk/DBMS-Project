@@ -30,7 +30,7 @@ DELIMITER ;
     PREPARE MAILING LIST
 DELIMITER $$
  
-CREATE PROCEDURE build_email_list (INOUT email_list varchar(4000))
+CREATE PROCEDURE MailingList (INOUT email_list varchar(4000))
 BEGIN
  
     DECLARE v_finished INTEGER DEFAULT FALSE;
@@ -59,5 +59,5 @@ BEGIN
 END$$ 
 DELIMITER ;
 SET @email_list = "";
-CALL build_email_list(@email_list);
+CALL MailingList(@email_list);
 SELECT @email_list;
