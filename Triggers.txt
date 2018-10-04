@@ -8,3 +8,22 @@ CREATE TRIGGER MovieTypeCheck BEFORE INSERT ON movies
             SET NEW.Type = 'Feature';
         END IF; //
 DELIMITER ;
+
+    DELETE ALL FOREIGN KEY INSTANCES OF A MOVIE
+DELIMITER //
+CREATE TRIGGER DeleteMovie AFTER DELETE ON movies
+    FOR EACH ROW
+
+    BEGIN
+
+        DELETE FROM cast WHERE (MID = OLD.MID);
+        DELETE FROM createdby WHERE (MID = OLD.MID);
+        DELETE FROM crew WHERE (MID = OLD.MID);
+        DELETE FROM genres WHERE (MID = OLD.MID);
+        DELETE FROM liked WHERE (MID = OLD.MID);
+        DELETE FROM posters WHERE (MID = OLD.MID);
+        DELETE FROM reviews WHERE (MID = OLD.MID);
+        DELETE FROM watched WHERE (MID = OLD.MID);
+
+    END //
+DELIMITER ;

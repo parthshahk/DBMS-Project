@@ -1,8 +1,0 @@
-new triggers
-Rearrange ER Diagram
-add screenshots
-number all queries
-UI
-Image BLOB
-Add procedures
-exception possible in type of movie? (Otherwise type is derivede attribute)

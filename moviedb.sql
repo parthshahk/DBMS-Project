@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2018 at 07:28 PM
+-- Generation Time: Oct 04, 2018 at 03:33 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -48,6 +48,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CountGender` ()  BEGIN
         SELECT Male, Female;
     END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CountGenres` (IN `gen` VARCHAR(255))  BEGIN
+
+        DECLARE GenreCount VARCHAR(255) DEFAULT FALSE;
+        DECLARE finished INT DEFAULT 0;
+        DECLARE x VARCHAR(255);
+
+        DECLARE genreCounter CURSOR FOR SELECT genres.Name FROM moviedb.genres WHERE genres.Name = gen;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = TRUE;
+        
+        OPEN genreCounter;
+
+        label1: LOOP
+            FETCH genreCounter INTO x;
+            IF finished THEN 
+                LEAVE label1;
+            END IF;
+
+            SET GenreCount = GenreCount + 1;
+
+        END LOOP label1;
+
+        CLOSE genreCounter;
+
+        SELECT GenreCount;
+
+    END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCast` (IN `mi` INT, IN `pi` INT, IN `cn` VARCHAR(255))  BEGIN
 
         DECLARE CONTINUE HANDLER FOR 1062
@@ -56,6 +83,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCast` (IN `mi` INT, IN `pi` I
         INSERT INTO cast VALUES (mi, pi, cn);
 
     END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `MailingList` (INOUT `email_list` VARCHAR(4000))  BEGIN
+ 
+    DECLARE v_finished INTEGER DEFAULT FALSE;
+    DECLARE v_email varchar(100) DEFAULT "";
+ 
+ 
+    DEClARE email_cursor CURSOR FOR SELECT Email FROM users;
+ 
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_finished = TRUE;
+ 
+    OPEN email_cursor;
+ 
+    get_email: LOOP
+ 
+        FETCH email_cursor INTO v_email;
+ 
+        IF v_finished THEN 
+            LEAVE get_email;
+        END IF;
+  
+        SET email_list = CONCAT(v_email,";",email_list);
+ 
+    END LOOP get_email;
+ 
+    CLOSE email_cursor;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `MovieFromRuntime` (IN `rt` SMALLINT)  BEGIN
         SELECT Title
@@ -641,6 +695,33 @@ INSERT INTO `movies` (`MID`, `Title`, `ReleaseDate`, `Plot`, `Runtime`, `Type`, 
 (19, 'Bewitched', '2016-03-05', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 116, 'Feature', 'PG-13'),
 (20, 'Jason X', '2017-10-08', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 101, 'Feature', 'R');
 
+--
+-- Triggers `movies`
+--
+DELIMITER $$
+CREATE TRIGGER `DeleteMovie` AFTER DELETE ON `movies` FOR EACH ROW BEGIN
+
+        DELETE FROM cast WHERE (MID = OLD.MID);
+        DELETE FROM createdby WHERE (MID = OLD.MID);
+        DELETE FROM crew WHERE (MID = OLD.MID);
+        DELETE FROM genres WHERE (MID = OLD.MID);
+        DELETE FROM liked WHERE (MID = OLD.MID);
+        DELETE FROM posters WHERE (MID = OLD.MID);
+        DELETE FROM reviews WHERE (MID = OLD.MID);
+        DELETE FROM watched WHERE (MID = OLD.MID);
+
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `MovieTypeCheck` BEFORE INSERT ON `movies` FOR EACH ROW IF (NEW.Runtime < 40) THEN
+            SET NEW.Type = 'Short';
+        ELSEIF (NEW.Runtime >= 40) THEN
+            SET NEW.Type = 'Feature';
+        END IF
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -1010,6 +1091,16 @@ INSERT INTO `users` (`UID`, `FirstName`, `LastName`, `Country`, `ProfilePicture`
 (18, 'Agretha', 'Batthew', 'UA', 'YbXUSeXX8EqxVW96.jpg', 'abatthewh@last.fm', 'pOTswSybjVzv', '2001-11-30'),
 (19, 'Goraud', 'Caplen', 'GY', 'SDOaRuyGZQm4jIA9.jpg', 'gcapleni@sphinn.com', '4TjEIEK91F', '2000-02-18'),
 (20, 'Welch', 'Feare', 'CN', 'N6C7JdWztCNwGTUm.jpg', 'wfearej@123-reg.co.uk', 'GvyMrz3meQK', '2006-01-04');
+
+--
+-- Triggers `users`
+--
+DELIMITER $$
+CREATE TRIGGER `AgeCheck` AFTER INSERT ON `users` FOR EACH ROW IF (YEAR(CURDATE()) - YEAR(NEW.DOB) < 10) THEN
+            DELETE FROM users WHERE UID = NEW.UID;
+        END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
