@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Movie Database</title>
+        <link rel="stylesheet" href="./assets/materialize.min.css">
+        <style>
+            .brand-logo {
+                font-family: 'Anton';
+            }
+
+            .dropdown-content li>a, .dropdown-content li>span {
+                color: #2979ff;
+            }
+
+            .select-wrapper input.select-dropdown:focus {
+                border-bottom: 2px solid #2979ff;
+            }
+
+            .input-field textarea:focus + label {
+                color: #2979ff !important;
+            }
+
+            .input-field textarea:focus {
+                border-bottom: 1px solid #2979ff !important;
+                box-shadow: 0 1px 0 0 #2979ff !important;
+            }
+
+            #sql {
+                height: 200px;  
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper green accent-3">
+                <a href="./" class="brand-logo center">Movie Database</a>
+            </div>
+        </nav>
+
+        <div class="container" id="selector">
+
+            <div class="row"></div>
+            <div class="row"></div>
+
+            <div class="row">
+                
+                <div class="input-field col s12">
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <optgroup label="Functionalities">
+                            <option value="1">Option 1</option>
+                        </optgroup>
+                        <optgroup label="Procedures">
+                            <option value="1">Option 1</option>
+                        </optgroup>
+                        <optgroup label="Functions">
+                            <option value="1">Option 1</option>
+                        </optgroup>
+                        <optgroup label="Cursors">
+                            <option value="1">Option 1</option>
+                        </optgroup>
+                    </select>
+                    <label>Select SQL Query</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 input-field">
+                    <textarea id="sql" class="materialize-textarea"> </textarea>
+                    <label for="sql">Query Editor</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 center">
+                    <button class="btn-large waves-effect waves-light blue accent-3">Fetch</button>
+                </div>
+            </div>
+
+        </div>
+        
+
+
+        <script src="./assets/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems, {});
+            });
+        </script>
+    </body>
+</html>

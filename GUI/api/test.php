@@ -1,7 +1,7 @@
 <?php
     $con = mysqli_connect("localhost","parth","parth","moviedb");
 
-    $sql = 'select * from movies';
+    $sql = "select * from people";
 
     $result = mysqli_query($con, $sql);
     $rows = array();
