@@ -37,7 +37,7 @@
         <div id="app">
             <nav>
                 <div class="nav-wrapper green accent-3">
-                    <a href="./" class="brand-logo center" v-text="title"></a>
+                    <a href="./" class="brand-logo center" v-text="titleV"></a>
                 </div>
             </nav>
 
@@ -49,19 +49,19 @@
                 <div class="row">
                     
                     <div class="input-field col s12">
-                        <select>
+                        <select v-model="query">
                             <option value="" disabled selected>Choose your option</option>
                             <optgroup label="Functionalities">
-                                <option value="1">Option 1</option>
+                                <option v-for="instance in functionalitiesV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
                             <optgroup label="Procedures">
-                                <option value="1">Option 1</option>
+                                <option v-for="instance in proceduresV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
                             <optgroup label="Functions">
-                                <option value="1">Option 1</option>
+                                <option v-for="instance in functionsV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
                             <optgroup label="Cursors">
-                                <option value="1">Option 1</option>
+                                <option v-for="instance in cursorsV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
                         </select>
                         <label>Select SQL Query</label>
@@ -90,12 +90,18 @@
                         <table id="viewTable" class="striped"></table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col s12 center">
+                        <button class="btn-large waves-effect waves-light blue accent-3" @click="view='selector'">Back</button>
+                    </div>
+                </div>
             </div>
         
 
         </div>
         <script src="./assets/materialize.js"></script>
         <script src="./assets/axios.min.js"></script>
+        <script src="./data.js"></script>
         <script src="./assets/vue.js"></script>
         <script src="./assets/jquery.min.js"></script>
         <script>
@@ -110,11 +116,18 @@
                 el :  '#app',
 
                 data: {
-                    title: 'Movie Database',
-                    query: '',
+                    titleV: title,
+                    query: ' ',
                     tableData: '',
-                    view:'selector'
+                    view:'selector',
 
+                    functionalitiesV: functionalities,
+
+                    proceduresV: procedures,
+
+                    functionsV: functions,
+
+                    cursorsV: cursors
                 },
 
                 methods: {
@@ -128,13 +141,14 @@
                     },
 
                     populate: function(){
+                        var myNode = document.getElementById("viewTable");
+                        while (myNode.firstChild) {
+                            myNode.removeChild(myNode.firstChild);
+                        }
                         buildHtmlTable('#viewTable',this.tableData);
                         this.view = 'table';
                     }
-
                 }
-
-
             });
 
             function buildHtmlTable(selector,myList) {
