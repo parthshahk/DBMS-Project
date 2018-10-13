@@ -116,13 +116,42 @@ var functionalities = [
 ];
 
 var procedures = [
-
+    {
+        desc: "GET ALL MOVIES WITH RUNTIME GREATER THAN THE GIVEN VALUE",
+        query: "CALL `MovieFromRuntime`(30)"
+    },
+    {
+        desc: "COUNT NUMBER OF MALE AND FEMALE FROM PEOPLE",
+        query: "CALL `CountGender`();"
+    },
+    {
+        desc: "INSERT INTO CAST TABLE, EXCEPTION IF DUPLICATE KEY",
+        query: "CALL `InsertCast`(1, 1, 'name');"
+    },
+    {
+        desc: "INSERT INTO REVIEWS WITH VALID RATING VALUE",
+        query: "CALL `AddReview`(ui, mi, date, star, review);"
+    }
 ];
 
 var functions = [
-
+    {
+        desc: "CHECKS IF THE MOVIE IS AN ADULT MOVIE OR NOT",
+        query: "SELECT `AdultMovieCheck`(12) AS `AdultMovieCheck`;"
+    },
+    {
+        desc: "RATES THE MOVIE BASED ON THE STARS IT REVEIVED",
+        query: "SELECT `AverageRating`(12) AS `AverageRating`;"
+    }
 ];
 
 var cursors = [
-
+    {
+        desc: "COUNT THE NUMBER OF MOVIES OF A PARTICULAR GENRE",
+        query: " CALL `CountGenres`('Horror');"
+    },
+    {
+        desc: "PREPARE MAILING LIST",
+        query: "CALL MailingList();"
+    }
 ]

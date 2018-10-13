@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2018 at 03:33 PM
+-- Generation Time: Oct 13, 2018 at 08:38 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -84,10 +84,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCast` (IN `mi` INT, IN `pi` I
 
     END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `MailingList` (INOUT `email_list` VARCHAR(4000))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `MailingList` ()  BEGIN
  
     DECLARE v_finished INTEGER DEFAULT FALSE;
     DECLARE v_email varchar(100) DEFAULT "";
+    DECLARE email_list text DEFAULT " ";
  
  
     DEClARE email_cursor CURSOR FOR SELECT Email FROM users;
@@ -109,6 +110,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `MailingList` (INOUT `email_list` VA
     END LOOP get_email;
  
     CLOSE email_cursor;
+    
+    SELECT email_list;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `MovieFromRuntime` (IN `rt` SMALLINT)  BEGIN
@@ -1002,6 +1005,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`UID`, `MID`, `Date`, `Stars`, `Content`) VALUES
+(1, 1, '2018-10-23', 0, ''),
 (2, 4, '2018-08-06', 4, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.'),
 (2, 7, '2017-11-08', 3, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.'),
 (2, 20, '2017-09-13', 4, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.'),

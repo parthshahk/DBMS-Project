@@ -30,11 +30,12 @@ DELIMITER ;
     PREPARE MAILING LIST
 DELIMITER $$
  
-CREATE PROCEDURE MailingList (INOUT email_list varchar(4000))
+CREATE PROCEDURE MailingList ()
 BEGIN
  
     DECLARE v_finished INTEGER DEFAULT FALSE;
     DECLARE v_email varchar(100) DEFAULT "";
+    DECLARE email_list text DEFAULT " ";
  
  
     DEClARE email_cursor CURSOR FOR SELECT Email FROM users;
@@ -56,8 +57,7 @@ BEGIN
     END LOOP get_email;
  
     CLOSE email_cursor;
+    
+    SELECT email_list;
 END$$ 
 DELIMITER ;
-SET @email_list = "";
-CALL MailingList(@email_list);
-SELECT @email_list;
