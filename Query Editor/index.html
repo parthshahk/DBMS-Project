@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Movie Database</title>
+        <link rel="stylesheet" href="./assets/materialize.css">
+        <style>
+            .brand-logo {
+                font-family: 'Anton';
+            }
+
+            .dropdown-content li>a, .dropdown-content li>span {
+                color: #2979ff;
+            }
+
+            .select-wrapper input.select-dropdown:focus {
+                border-bottom: 2px solid #2979ff;
+            }
+
+            .input-field textarea:focus + label {
+                color: #2979ff !important;
+            }
+
+            .input-field textarea:focus {
+                border-bottom: 1px solid #2979ff !important;
+                box-shadow: 0 1px 0 0 #2979ff !important;
+            }
+
+            #sql {
+                height: 200px;  
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <nav>
+                <div class="nav-wrapper green accent-3">
+                    <a href="./" class="brand-logo center" v-text="titleV"></a>
+                </div>
+            </nav>
+
+            <div class="container" v-show="view=='selector'">
+
+                <div class="row"></div>
+                <div class="row"></div>
+
+                <div class="row">
+                    
+                    <div class="input-field col s12">
+                        <select v-model="query">
+                            <option value="" disabled selected>Choose your option</option>
+                            <optgroup label="Functionalities">
+                                <option v-for="instance in functionalitiesV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
+                            <optgroup label="Procedures">
+                                <option v-for="instance in proceduresV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
+                            <optgroup label="Functions">
+                                <option v-for="instance in functionsV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
+                            <optgroup label="Cursors">
+                                <option v-for="instance in cursorsV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
+                        </select>
+                        <label>Select SQL Query</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 input-field">
+                        <textarea id="sql" class="materialize-textarea" v-model="query"></textarea>
+                        <label for="sql">Query Editor</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 center">
+                        <button class="btn-large waves-effect waves-light blue accent-3" @click="fire()">Fetch</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div v-show="view=='table'">
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col s12">
+                        <table id="viewTable" class="striped"></table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center">
+                        <button class="btn-large waves-effect waves-light blue accent-3" @click="view='selector'">Back</button>
+                    </div>
+                </div>
+            </div>
+        
+
+        </div>
+        <script src="./assets/materialize.js"></script>
+        <script src="./assets/axios.min.js"></script>
+        <script src="./data.js"></script>
+        <script src="./assets/vue.js"></script>
+        <script src="./assets/jquery.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems, {});
+            });
+
+            var app = new Vue({
+
+                el :  '#app',
+
+                data: {
+                    titleV: title,
+                    query: ' ',
+                    tableData: '',
+                    view:'selector',
+
+                    functionalitiesV: functionalities,
+
+                    proceduresV: procedures,
+
+                    functionsV: functions,
+
+                    cursorsV: cursors
+                },
+
+                methods: {
+
+                    fire: function(){
+                        var self = this;
+                        axios.get('./api/fetch.php?q='+this.query).then(function(response){
+                            self.tableData = response.data;
+                            self.populate();
+                        })
+                    },
+
+                    populate: function(){
+                        var myNode = document.getElementById("viewTable");
+                        while (myNode.firstChild) {
+                            myNode.removeChild(myNode.firstChild);
+                        }
+                        buildHtmlTable('#viewTable',this.tableData);
+                        this.view = 'table';
+                    }
+                }
+            });
+
+            function buildHtmlTable(selector,myList) {
+                var columns = addAllColumnHeaders(myList, selector);
+
+                for (var i = 0; i < myList.length; i++) {
+                    var row$ = $('<tr/>');
+                    for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = myList[i][columns[colIndex]];
+                    if (cellValue == null) cellValue = "";
+                    row$.append($('<td/>').html(cellValue));
+                    }
+                    $(selector).append(row$);
+                }
+            }
+
+            function addAllColumnHeaders(myList, selector) {
+                var columnSet = [];
+                var headerTr$ = $('<tr/>');
+
+                for (var i = 0; i < myList.length; i++) {
+                    var rowHash = myList[i];
+                    for (var key in rowHash) {
+                    if ($.inArray(key, columnSet) == -1) {
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                    }
+                }
+                $(selector).append(headerTr$);
+
+                return columnSet;
+            }
+        </script>
+    </body>
+</html>
