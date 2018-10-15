@@ -1,13 +1,17 @@
 <?php
     $con = mysqli_connect("localhost","parth","parth","moviedb");
 
-    $sql = $_REQUEST['q'];
+    if($_REQUEST['q'] == ''){
+        echo "false";
+        exit(0);
+    }else{
+        $sql = $_REQUEST['q'];
+    }
 
     $result = mysqli_query($con, $sql);
     
     if($result === true){
         echo "true";
-
     }else if($result === false){
         echo "false";
     }else{
