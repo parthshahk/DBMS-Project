@@ -154,7 +154,7 @@ var cursors = [
         desc: "2. PREPARE MAILING LIST",
         query: "CALL MailingList();"
     }
-]
+];
 
 var views = [
     {
@@ -165,7 +165,7 @@ var views = [
         desc: "2. LIST RATINGS OF MOVIES",
         query: "SELECT * FROM ratings"
     }
-]
+];
 
 var tables = [
     {
@@ -220,4 +220,4 @@ var tables = [
         desc: "13. Crew",
         query: "SELECT * FROM crew"
     }
-]
+];
