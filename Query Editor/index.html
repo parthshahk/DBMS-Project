@@ -51,7 +51,7 @@
 
                 <div class="row">
                     <div class="col s12 input-field">
-                        <textarea id="sql" class="materialize-textarea" v-model="query" @keyup.ctrl.enter="fire()"></textarea>
+                        <textarea id="sql" class="materialize-textarea" v-model="query" @keydown.ctrl.enter="fire()"></textarea>
                         <label for="sql">Query Editor</label>
                     </div>
                 </div>
