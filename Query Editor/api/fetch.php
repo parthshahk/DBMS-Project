@@ -4,9 +4,19 @@
     $sql = $_REQUEST['q'];
 
     $result = mysqli_query($con, $sql);
-    $rows = array();
-    while($r = mysqli_fetch_assoc($result)) {
-        $rows[] = $r;
+    
+    if($result === true){
+        echo "true";
+
+    }else if($result === false){
+        echo "false";
+    }else{
+
+        $rows = array();
+        while($r = mysqli_fetch_assoc($result)) {
+            $rows[] = $r;
+        }
+        print json_encode($rows);
+
     }
-    print json_encode($rows);
 ?>

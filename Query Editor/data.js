@@ -130,7 +130,7 @@ var procedures = [
     },
     {
         desc: "4. INSERT INTO REVIEWS WITH VALID RATING VALUE",
-        query: "CALL `AddReview`(ui, mi, date, star, review);"
+        query: "CALL `AddReview`(1, 2, '2018-03-12', 5, 'Review...');"
     }
 ];
 
@@ -153,5 +153,71 @@ var cursors = [
     {
         desc: "2. PREPARE MAILING LIST",
         query: "CALL MailingList();"
+    }
+]
+
+var views = [
+    {
+        desc: "1. LIST ALL MOVIE DETAILS IN ONE TUPLE",
+        query:"SELECT * FROM movie_details"
+    },
+    {
+        desc: "2. LIST RATINGS OF MOVIES",
+        query: "SELECT * FROM ratings"
+    }
+]
+
+var tables = [
+    {
+        desc: "1. Users",
+        query: "SELECT * FROM users"
+    },
+    {
+        desc: "2. Movies",
+        query: "SELECT * FROM movies"
+    },
+    {
+        desc: "3. People",
+        query: "SELECT * FROM people"
+    },
+    {
+        desc: "4. Genres",
+        query: "SELECT * FROM genres"
+    },
+    {
+        desc: "5. Posters",
+        query: "SELECT * FROM posters"
+    },
+    {
+        desc: "6. Photos",
+        query: "SELECT * FROM photos"
+    },
+    {
+        desc: "7. FavGenres",
+        query: "SELECT * FROM favgenres"
+    },
+    {
+        desc: "8. Watched",
+        query: "SELECT * FROM watched"
+    },
+    {
+        desc: "9. Liked",
+        query: "SELECT * FROM liked"
+    },
+    {
+        desc: "10. CreatedBy",
+        query: "SELECT * FROM createdby"
+    },
+    {
+        desc: "11. Reviews",
+        query: "SELECT * FROM reviews"
+    },
+    {
+        desc: "12. Cast",
+        query: "SELECT * FROM cast"
+    },
+    {
+        desc: "13. Crew",
+        query: "SELECT * FROM crew"
     }
 ]

@@ -23,6 +23,11 @@
                 color: #2979ff !important;
             }
 
+            .input-field textarea {
+                font-family: 'Consolas', monospace;
+                font-size: 1.1em;
+            }
+
             .input-field textarea:focus {
                 border-bottom: 1px solid #2979ff !important;
                 box-shadow: 0 1px 0 0 #2979ff !important;
@@ -63,6 +68,12 @@
                             <optgroup label="Cursors">
                                 <option v-for="instance in cursorsV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
+                            <optgroup label="Views">
+                                <option v-for="instance in viewsV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
+                            <optgroup label="Tables">
+                                <option v-for="instance in tablesV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
                         </select>
                         <label>Select SQL Query</label>
                     </div>
@@ -77,7 +88,7 @@
 
                 <div class="row">
                     <div class="col s12 center">
-                        <button class="btn-large waves-effect waves-light blue accent-3" @click="fire()">Fetch</button>
+                        <button class="btn-large waves-effect waves-light blue accent-3" @click="fire()">Execute</button>
                     </div>
                 </div>
 
@@ -96,7 +107,21 @@
                     </div>
                 </div>
             </div>
-        
+
+            <div v-show="view=='message'">
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col s12 center">
+                        <h4 v-text="message" :class="messageColor"></h4>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col s12 center">
+                        <button class="btn-large waves-effect waves-light blue accent-3" @click="view='selector'">Back</button>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <script src="./assets/materialize.js"></script>
@@ -120,6 +145,8 @@
                     query: ' ',
                     tableData: '',
                     view:'selector',
+                    message: '',
+                    messageColor: '',
 
                     functionalitiesV: functionalities,
 
@@ -127,7 +154,11 @@
 
                     functionsV: functions,
 
-                    cursorsV: cursors
+                    cursorsV: cursors,
+
+                    viewsV: views,
+
+                    tablesV: tables
                 },
 
                 methods: {
@@ -135,8 +166,23 @@
                     fire: function(){
                         var self = this;
                         axios.get('./api/fetch.php?q='+this.query).then(function(response){
-                            self.tableData = response.data;
-                            self.populate();
+
+                            if(response.data === true){
+                                
+                                self.message = "Query Executed Successfully";
+                                self.messageColor = "green-text";
+                                self.view = 'message';
+                            }else if(response.data === false){
+
+                                self.message = "Error in Query Execution";
+                                self.messageColor = "red-text";
+                                self.view = 'message';
+                            }else{
+
+                                self.tableData = response.data;
+                                self.populate();
+                            }
+
                         })
                     },
 

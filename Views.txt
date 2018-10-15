@@ -1,4 +1,4 @@
-    LIST ALL MOVIE DETAILS IN ONE TOUPLE
+    LIST ALL MOVIE DETAILS IN ONE TUPLE
 CREATE VIEW movie_details AS
 SELECT m.Title, m.ReleaseDate AS 'Release Date', m.Plot, m.Runtime, m.Type, m.Certificate, GROUP_CONCAT(g.Name) AS Genres
 FROM movies m
