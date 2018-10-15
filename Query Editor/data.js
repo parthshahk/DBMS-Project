@@ -137,7 +137,7 @@ var procedures = [
 var functions = [
     {
         desc: "1. CHECKS IF THE MOVIE IS AN ADULT MOVIE OR NOT",
-        query: "SELECT `AdultMovieCheck`(12) AS `AdultMovieCheck`;"
+        query: "SELECT `AdultMovieCheck`('The Secret Life') AS `AdultMovieCheck`;"
     },
     {
         desc: "2. RATES THE MOVIE BASED ON THE STARS IT REVEIVED",
