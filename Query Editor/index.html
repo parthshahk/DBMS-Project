@@ -6,37 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Movie Database</title>
         <link rel="stylesheet" href="./assets/materialize.css">
-        <style>
-            .brand-logo {
-                font-family: 'Anton';
-            }
-
-            .dropdown-content li>a, .dropdown-content li>span {
-                color: #2979ff;
-            }
-
-            .select-wrapper input.select-dropdown:focus {
-                border-bottom: 2px solid #2979ff;
-            }
-
-            .input-field textarea:focus + label {
-                color: #2979ff !important;
-            }
-
-            .input-field textarea {
-                font-family: 'Consolas', monospace;
-                font-size: 1.1em;
-            }
-
-            .input-field textarea:focus {
-                border-bottom: 1px solid #2979ff !important;
-                box-shadow: 0 1px 0 0 #2979ff !important;
-            }
-
-            #sql {
-                height: 200px;  
-            }
-        </style>
+        <link rel="stylesheet" href="./assets/style.css">
     </head>
     <body>
         <div id="app">
@@ -129,105 +99,6 @@
         <script src="./data.js"></script>
         <script src="./assets/vue.js"></script>
         <script src="./assets/jquery.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-
-                var elems = document.querySelectorAll('select');
-                var instances = M.FormSelect.init(elems, {});
-            });
-
-            var app = new Vue({
-
-                el :  '#app',
-
-                data: {
-                    titleV: title,
-                    query: ' ',
-                    tableData: '',
-                    view:'selector',
-                    message: '',
-                    messageColor: '',
-
-                    functionalitiesV: functionalities,
-
-                    proceduresV: procedures,
-
-                    functionsV: functions,
-
-                    cursorsV: cursors,
-
-                    viewsV: views,
-
-                    tablesV: tables
-                },
-
-                methods: {
-
-                    fire: function(){
-                        var self = this;
-                        axios.get('./api/fetch.php?q='+this.query).then(function(response){
-
-                            if(response.data === true){
-                                
-                                self.message = "Query Executed Successfully";
-                                self.messageColor = "green-text";
-                                self.view = 'message';
-                            }else if(response.data === false){
-
-                                self.message = "Error in Query Execution";
-                                self.messageColor = "red-text";
-                                self.view = 'message';
-                            }else{
-
-                                self.tableData = response.data;
-                                self.populate();
-                            }
-
-                        })
-                    },
-
-                    populate: function(){
-                        var myNode = document.getElementById("viewTable");
-                        while (myNode.firstChild) {
-                            myNode.removeChild(myNode.firstChild);
-                        }
-                        buildHtmlTable('#viewTable',this.tableData);
-                        this.view = 'table';
-                    }
-                }
-            });
-
-            function buildHtmlTable(selector,myList) {
-                var columns = addAllColumnHeaders(myList, selector);
-
-                for (var i = 0; i < myList.length; i++) {
-                    var row$ = $('<tr/>');
-                    for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-                    var cellValue = myList[i][columns[colIndex]];
-                    if (cellValue == null) cellValue = "";
-                    row$.append($('<td/>').html(cellValue));
-                    }
-                    $(selector).append(row$);
-                }
-            }
-
-            function addAllColumnHeaders(myList, selector) {
-                var columnSet = [];
-                var headerTr$ = $('<tr/>');
-
-                for (var i = 0; i < myList.length; i++) {
-                    var rowHash = myList[i];
-                    for (var key in rowHash) {
-                    if ($.inArray(key, columnSet) == -1) {
-                        columnSet.push(key);
-                        headerTr$.append($('<th/>').html(key));
-                    }
-                    }
-                }
-                $(selector).append(headerTr$);
-
-                return columnSet;
-            }
-        </script>
+        <script src="./assets/script.js"></script>
     </body>
 </html>
