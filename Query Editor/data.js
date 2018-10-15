@@ -221,3 +221,58 @@ var tables = [
         query: "SELECT * FROM crew"
     }
 ];
+
+var insert = [
+    {
+        desc: "1. Add new User",
+        query: "INSERT INTO users (UID, FirstName, LastName, Country, ProfilePicture, Email, Password, DOB) VALUES (1, 'Ryan', 'Mollin', 'AL', 'dQc2XWyAFqxvlQXp.jpg', 'rmollin0@xrea.com', 'UBT65gm', '2002-01-16');"
+    },
+    {
+        desc: "2. ADD FAVOURITE GENRES OF A USER",
+        query: "INSERT INTO favgenres (UID, Name) VALUES (1, 'Horror'), (1, 'Mystery');"
+    },
+    {
+        desc: "3. ADD REVIEW FROM A USER",
+        query: "INSERT INTO reviews (UID, MID, Date, Stars, Content) VALUES (2, 4, '2018-08-06', 4, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.');"
+    },
+    {
+        desc: "4. ADD LIKED MOVIES",
+        query: "INSERT INTO liked (UID, MID) VALUES (1, 3), (1, 9);"
+    },
+    {
+        desc: "5. ADD WATCHED MOVIES",
+        query: "INSERT INTO watched (UID, MID) VALUES (1, 1), (1, 3), (1, 9), (1, 17);"
+    },
+    {
+        desc: "6. ADD PEOPLE",
+        query: "INSERT INTO people (PID, FirstName, LastName, Gender, DOB) VALUES (1, 'Bonni', 'Shieldon', 'F', '1989-04-09');"
+    },
+    {
+        desc: "7. ADD PHOTOS OF PEOPLE",
+        query: "INSERT INTO photos (PID, FileName) VALUES (1, 'dVvC6FYupGDt69iV.jpg'), (1, 'JRl5Ash7ioWrMrK5.jpg'), (1, 'Pcg1CLV9aakEHjvs.jpg'), (1, 'rtfVnMVse4Tj23lO.jpg'), (1, 'tXH7mMbCVSJLqPd9.jpg'), (1, 'wzUh2EDruHhHplDm.jpg'), (1, 'YTGCH7eRMSI3gnHj.jpg');"
+    },
+    {
+        desc: "8. ADD NEW MOVIES",
+        query: "INSERT INTO movies (MID, Title, ReleaseDate, Plot, Runtime, Type, Certificate) VALUES (1, 'The Avengers', '2016-10-26', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 139, 'Feature', 'PG-13');"
+    },
+    {
+        desc: "9. INSERT GENRES OF MOVIES",
+        query: "INSERT INTO genres (MID, Name) VALUES (1, 'Drama'), (1, 'Horror');"
+    },
+    {
+        desc: "10. ADD POSTERS OF A MOVIE",
+        query: "INSERT INTO posters (MID, FileName) VALUES (1, 'dVvC6FYupGDt69iV.jpg'), (1, 'JRl5Ash7ioWrMrK5.jpg'), (1, 'Pcg1CLV9aakEHjvs.jpg'), (1, 'rtfVnMVse4Tj23lO.jpg'), (1, 'tXH7mMbCVSJLqPd9.jpg'), (1, 'wzUh2EDruHhHplDm.jpg'), (1, 'YTGCH7eRMSI3gnHj.jpg');"
+    },
+    {
+        desc: "11. ADD CREDITS TO A MOVIE",
+        query: "INSERT INTO createdby (PID, MID) VALUES (2, 1), (9, 1), (12, 1), (13, 1), (15, 1), (16, 1), (17, 1), (19, 1);"
+    },
+    {
+        desc: "12. DEFINE CAST MEMBERS OF A MOVIE",
+        query: "INSERT INTO cast (MID, PID, CharacterName) VALUES (1, 2, 'Joshua'), (1, 15, 'Brooke');"
+    },
+    {
+        desc: "13. DEFINE CREW MEMBERS OF A MOVIE",
+        query: "INSERT INTO Crew (MID, PID, Role) VALUES (1, 9), (1, 12), (1, 13), (1, 16), (1, 17), (1, 19);"
+    }
+];

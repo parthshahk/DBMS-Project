@@ -26,7 +26,9 @@ var app = new Vue({
 
         viewsV: views,
 
-        tablesV: tables
+        tablesV: tables,
+
+        insertV: insert
     },
 
     methods: {

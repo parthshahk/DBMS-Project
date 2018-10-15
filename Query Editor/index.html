@@ -44,6 +44,9 @@
                             <optgroup label="Tables">
                                 <option v-for="instance in tablesV" :value="instance.query">{{instance.desc}}</option>
                             </optgroup>
+                            <optgroup label="Insert">
+                                <option v-for="instance in insertV" :value="instance.query">{{instance.desc}}</option>
+                            </optgroup>
                         </select>
                         <label>Select SQL Query</label>
                     </div>
