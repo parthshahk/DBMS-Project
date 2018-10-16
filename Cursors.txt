@@ -52,7 +52,7 @@ BEGIN
             LEAVE get_email;
         END IF;
   
-        SET email_list = CONCAT(v_email,";",email_list);
+        SET email_list = CONCAT(v_email,"; ",email_list);
  
     END LOOP get_email;
  

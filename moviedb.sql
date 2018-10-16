@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2018 at 08:38 AM
+-- Generation Time: Oct 16, 2018 at 08:15 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -105,7 +105,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `MailingList` ()  BEGIN
             LEAVE get_email;
         END IF;
   
-        SET email_list = CONCAT(v_email,";",email_list);
+        SET email_list = CONCAT(v_email,"; ",email_list);
  
     END LOOP get_email;
  
